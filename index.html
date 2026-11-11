@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2027년 국방예산 정부안의 부문·회계별 예산과 세부 프로그램을 비교합니다.">
+  <title>2027 국방예산 대시보드</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#overview"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>국방예산<span class="brand-year"> / 2027</span></span></a>
+    <nav aria-label="대시보드 메뉴">
+      <a href="#overview"><span aria-hidden="true">◫</span>예산 개요</a>
+      <a href="#composition"><span aria-hidden="true">◉</span>예산 구성</a>
+      <a href="#changes"><span aria-hidden="true">↗</span>프로그램 분석</a>
+      <a href="#details"><span aria-hidden="true">▤</span>상세 내역</a>
+    </nav>
+    <div class="sidebar-footer">2027년 정부안<br><span>2026년 예산 대비</span></div>
+  </aside>
+  <main id="overview">
+    <header class="page-header">
+      <div><p class="eyebrow">2027년 정부안</p><h1>국방예산 대시보드</h1><p class="subtitle">부문별 재원과 프로그램별 예산 변화를 살펴보세요.</p></div>
+      <span class="unit">금액 단위 · 억 원</span>
+    </header>
+    <section class="filters" aria-label="예산 필터">
+      <label>부문 <select id="sector"><option value="">전체 부문</option></select></label>
+      <label>회계구분 <select id="account"><option value="">전체 회계</option></select></label>
+      <button id="reset" type="button">↻ 초기화</button>
+      <p id="scope" role="status"></p>
+    </section>
+    <section class="metrics" aria-label="예산 요약">
+      <article class="metric primary"><h2>2027년 정부안</h2><strong id="current"></strong><span>억 원 · 선택 범위 합계</span></article>
+      <article class="metric previous"><h2>2026년 예산</h2><strong id="previous"></strong><span>억 원 · 비교 기준</span></article>
+      <article class="metric delta"><h2>전년 대비 증감</h2><strong id="delta"></strong><span>억 원 · 2027년 − 2026년</span></article>
+      <article class="metric rate"><h2>전년 대비 증감률</h2><strong id="rate"></strong><span>2026년 예산 기준</span></article>
+    </section>
+    <section id="composition" class="section">
+      <header class="section-head"><h2>예산 구성</h2><span>원본 합계·소계 기준</span></header>
+      <div class="grid">
+        <article class="card"><h3>부문별 예산 비교</h3><p class="caption"><span class="key pale"></span>2026년 <span class="key blue"></span>2027년</p><div id="sector-chart"></div></article>
+        <article class="card"><h3>회계별 예산 비중</h3><p class="caption">2027년 정부안</p><div id="account-chart"></div></article>
+        <article class="card wide"><h3>구분별 예산 비교</h3><p class="caption"><span class="key pale"></span>2026년 <span class="key blue"></span>2027년 · 구분 소계 및 병무행정 합계</p><div id="category-chart"></div></article>
+      </div>
+    </section>
+    <section id="changes" class="section">
+      <header class="section-head"><h2>프로그램 분석</h2><span>세부 항목 기준</span></header>
+      <div class="grid">
+        <article class="card wide"><h3>2027년 프로그램별 예산 상위 10개</h3><p class="caption"><span class="key"></span>전력운영 <span class="key teal"></span>방위력개선 <span class="key orange"></span>병무행정</p><div id="top-chart"></div></article>
+        <article class="card"><h3>예산 증가액 상위 6개</h3><p class="caption">전년 대비 증감액 · 억 원</p><div id="increase-chart"></div></article>
+        <article class="card"><h3>예산 감소액 상위 6개</h3><p class="caption">전년 대비 증감액 · 억 원</p><div id="decrease-chart"></div></article>
+        <article class="card"><h3>프로그램 증감 분포</h3><p class="caption">증가·감소·유지 항목 수</p><div id="direction-chart"></div></article>
+        <article class="card"><h3>증감률 구간별 프로그램 수</h3><p class="caption">2026년 예산이 0인 항목은 집계에서 제외</p><div id="histogram-chart"></div></article>
+      </div>
+    </section>
+    <section id="details" class="section">
+      <header class="section-head"><h2>상세 내역</h2><span id="row-count"></span></header>
+      <article class="card table-card">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="프로그램별 상세 내역 표">
+          <table>
+            <thead><tr><th scope="col">프로그램 / 세부 항목</th><th scope="col">부문</th><th scope="col">회계구분</th><th scope="col">구분</th><th scope="col" data-sort="previous"><button type="button">2026년</button></th><th scope="col" data-sort="current"><button type="button">2027년</button></th><th scope="col" data-sort="delta"><button type="button">증감</button></th><th scope="col" data-sort="rate"><button type="button">증감률</button></th></tr></thead>
+            <tbody id="detail-body"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+    <footer>
+      <p id="source"></p>
+      <p>요약은 선택 범위의 부문·회계 합계 행을 더한 값입니다. 전체 범위에는 특별회계·기금과 병무행정이 포함됩니다.</p>
+      <p>프로그램 분석에는 하위 프로그램이 없는 두 방위력개선 세부 항목을 포함합니다. 원본에 표기된 금액을 사용하므로 세부 항목의 합과 원본 소계 사이에 차이가 있을 수 있습니다.</p>
+    </footer>
+  </main>
+</body>
+</html>
